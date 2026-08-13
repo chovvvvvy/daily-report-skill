@@ -14,6 +14,7 @@ Generate a short developer daily report that first checks yesterday's commitment
 - Keep the same `item_id` for the same work item across daily and weekly reports.
 - Treat the reporter as the default owner. Do not repeat the owner's name on every item unless the report combines multiple people.
 - Generate the report each evening. Record `report_date`, `data_cutoff`, and `generated_at` separately.
+- Treat every confirmed item under today's `明日计划` as an explicit next-day commitment. Preserve its `item_id` and carry it into the next day's `昨日承诺兑现` section for one-by-one reconciliation before collecting new work.
 - Use one confirmed structured fact source for every output. Never edit HTML and Markdown as independent versions.
 - Preserve the user's latest statement as authoritative. Flag material conflicts with older reports instead of guessing.
 
