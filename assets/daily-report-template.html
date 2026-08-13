@@ -15,13 +15,15 @@
 </head>
 <body>
   <main class="page">
-    <header class="masthead"><div><div class="eyebrow">DAILY BRIEF / {{project}}</div><h1 class="title">工作日报</h1><div class="meta">汇报人：{{owner}}｜日期：{{date}}</div></div><div class="period">工作日期<br><strong>{{date}}</strong><br>{{period-note}}</div></header>
+    <header class="masthead"><div><div class="eyebrow">DAILY BRIEF / {{project}}</div><h1 class="title">工作日报</h1><div class="meta">汇报人：{{owner}}｜日期：{{date}}｜数据截至：{{data-cutoff}}</div></div><div class="period">工作日期<br><strong>{{date}}</strong><br>{{period-note}}</div></header>
+    <section class="section"><div class="section-title"><h2>00 昨日承诺兑现</h2><span class="utility">CONTINUITY</span></div>{{commitment-items}}</section>
     <section class="executive"><div class="executive-top"><div><div class="eyebrow">总｜今日结论</div><h2>{{executive-title}}</h2><p class="thesis">{{executive-summary}}</p></div><div class="judgement"><div class="label">当前判断</div><strong>{{overall-status}}</strong></div></div><div class="status-strip"><div class="status-item"><div class="label">今日完成</div><strong>{{completed-count}}</strong><span>{{completed-note}}</span></div><div class="status-item"><div class="label">当前问题</div><strong>{{issue-count}}</strong><span>{{issue-note}}</span></div><div class="status-item"><div class="label">待协调</div><strong>{{coordination-count}}</strong><span>{{coordination-note}}</span></div></div></section>
     <section class="section"><div class="section-title"><h2>01 当前开发工作进展</h2><span class="utility">TODAY</span></div>{{development-items}}</section>
     <section class="section"><div class="section-title"><h2>02 当前版本问题修复与进展</h2><span class="utility">ISSUES</span></div>{{issue-items}}</section>
     <section class="section"><div class="section-title"><h2>03 测试问题及遗留问题</h2><span class="utility">VALIDATION</span></div>{{validation-items}}</section>
     <section class="section"><div class="section-title"><h2>04 需要协调的问题</h2><span class="utility">ACTION NEEDED</span></div>{{coordination-items}}</section>
-    <div class="footer">生成时间：{{generated-at}}｜本地附件与 HTML 日报统一存放于当前周报文件夹</div>
+    <section class="section"><div class="section-title"><h2>05 明日计划</h2><span class="utility">NEXT</span></div>{{next-day-items}}</section>
+    <div class="footer">生成时间：{{generated-at}}｜JSON、HTML、Markdown 与本地附件统一存放于当前日报文件夹</div>
   </main>
 </body>
 </html>
