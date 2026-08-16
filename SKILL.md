@@ -133,18 +133,20 @@ Treat attachments as optional supporting evidence, not mandatory fields.
 
 - Ask for an attachment when it better demonstrates a deliverable, test result, metric, screenshot, report, or decision.
 - Do not create `待补充附件` placeholders when no attachment is needed.
-- When supplied, include a readable name, original path or URL, clickable same-folder relative link, and one sentence explaining what it demonstrates.
+- When supplied, include a readable name, original path or URL, clickable same-folder relative link, and one sentence explaining what it demonstrates. On desktop, place it in the related item's visually secondary 附件 rail; on narrow screens place the rail beneath the related narrative.
+- When an item has no attachment, render the explicit text 无; do not invent a file, image, or pending-evidence placeholder.
 - Copy accessible local attachments into the current `YYMMDD日报` folder.
 - Never invent a link or claim to have inspected an unavailable file.
 
 ## Output rules
 
-- Use `assets/daily-report-template.html` as the visual and component reference; preserve its restrained editorial style, single-column cards, accessibility, responsive layout, and A4 print styles.
+- Use `assets/daily-report-template.html` as the visual and component reference. Preserve the blue 当日追踪 visual language shared with the weekly B 证据矩阵 baseline: prose-led item records, visually secondary attachment rails, accessible headings, responsive layout, and A4 print styles.
 - Generate HTML and Markdown only from the confirmed JSON model.
 - Keep the HTML's top sequence: date and cutoff → yesterday commitment fulfillment → today's conclusion → details → tomorrow plan.
 - Use the same five numbered sections in Markdown and retain every confirmed item ID, status, result, and next action.
 - Put copy-ready Markdown in a fenced `text` block when showing it in chat.
 - When revising a report, update JSON first and regenerate both outputs; never patch only one derivative.
+- After all local files pass delivery checks, execute the standing Feishu archive sync in [`references/feishu-archive-sync.md`](references/feishu-archive-sync.md). This is a post-generation delivery step and does not change the interview, confirmation gate, source precedence, or local canonical files.
 
 ## Delivery checks
 
@@ -158,3 +160,4 @@ Before delivery, verify:
 - HTML and Markdown match the canonical JSON;
 - all supplied local links resolve inside the report folder;
 - no facts, metrics, dates, or evidence were invented.
+- when Feishu archive sync is configured, its manifest records the native Markdown, HTML, and every confirmed attachment in their configured folders; when configuration is incomplete, local report delivery succeeds and the sync blocker is stated explicitly.
