@@ -36,7 +36,11 @@ Use this minimum item schema:
   "source_type": "weekly_commitment | carried_daily | temporary_addition",
   "title": "事项名称",
   "yesterday_commitment": "昨天承诺今天完成的内容",
+  "commitment_fulfilled": "是 | 否 | 不适用",
+  "commitment_reason": "是否完成的事实原因；新增事项填写不适用原因",
   "today_delta": "今天实际发生的变化",
+  "progress_status": "是 | 否",
+  "progress_summary": "当前是否在进行及具体进程",
   "execution_status": "待确认 | 未开始 | 进行中 | 已完成 | 阻塞 | 取消",
   "validation_status": "待确认 | 无需验证 | 待验证 | 已通过 | 未通过",
   "schedule_status": "待确认 | 正常 | 有风险 | 已延期",
@@ -117,9 +121,9 @@ Do not collapse `已完成 + 待验证` into fully verified completion. Do not t
 
 ## Report structure
 
-Place a required `昨日承诺兑现` overview before the details. Then use these five sections:
+Place a required `昨日承诺兑现` overview before the details. Render every carried commitment as its own row/card with `是否已完成` (`是/否`) and a factual `原因`; never merge multiple commitments into one summary sentence. For a temporary addition, use `不适用` and explain that it is a new item. In `当前开发工作进展`, render every primary item with `是否进行` (`是/否`) and `当前进程`, followed by its result and next action; do not replace these fields with a generic overall paragraph. Then use these five sections:
 
-1. **当前开发工作进展** — today's actual delta and visible results;
+1. **当前开发工作进展** — each item shows `是否进行` and `当前进程`, followed by today's actual delta, result, and next action;
 2. **当前版本问题修复与进展** — `问题 / 处理方法 / 当前状态 / 下一步或验证`;
 3. **测试问题及遗留问题** — separate completed tests, failed cases, and pending validation;
 4. **需要协调的问题** — preserve confirmed coordination content; write `无` when none;
@@ -135,7 +139,7 @@ Treat attachments as optional supporting evidence, not mandatory fields.
 - Do not create `待补充附件` placeholders when no attachment is needed.
 - When supplied, include a readable name, original path or URL, clickable same-folder relative link, and one sentence explaining what it demonstrates. On desktop, place it in the related item's visually secondary 附件 rail; on narrow screens place the rail beneath the related narrative.
 - When an item has no attachment, render the explicit text 无; do not invent a file, image, or pending-evidence placeholder.
-- Copy accessible local attachments into the current `YYMMDD日报` folder.
+- Copy accessible local attachments into the current `YYMMDD日报` folder. In Feishu, archive each report under matching `M.D` date subfolders below the configured report and attachment roots.
 - Never invent a link or claim to have inspected an unavailable file.
 
 ## Output rules
@@ -153,6 +157,8 @@ Treat attachments as optional supporting evidence, not mandatory fields.
 Before delivery, verify:
 
 - every yesterday commitment has an explicit outcome;
+- every yesterday commitment displays `是否已完成` and a factual reason;
+- every current-development item displays `是否进行` and its current progress;
 - every unfinished item has a next action and due date or `待确认`;
 - every temporary addition has a reason;
 - the same item keeps the same ID across daily and weekly sources;
