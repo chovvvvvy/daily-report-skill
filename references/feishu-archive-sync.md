@@ -1,5 +1,7 @@
 # Feishu archive sync
 
+This sync is mandatory for every confirmed daily or weekly report when the configuration below is enabled. Do not skip it because a Feishu MCP tool is not exposed in the current session. The supported fallback is the locally installed `lark-cli` command.
+
 Run this post-generation workflow only after the user has confirmed the complete report and the canonical JSON, HTML, and Markdown have passed local delivery checks. The user's standing instruction authorizes these exact archive writes without a new confirmation on every run.
 
 ## Configuration
@@ -11,6 +13,14 @@ Read `C:\Users\eqy\.codex\report-sync\feishu-archive.json` before writing.
 - Under `attachment_folder_token`, create or reuse a matching per-report date subfolder named `YYYYMMDD`, and place only that report's confirmed attachments referenced by the canonical JSON inside it.
 - Do not import Markdown as Docx and do not create an additional online document.
 - Never fall back to Drive root or another folder when a token is missing or invalid.
+
+## Execution requirement
+
+- First check whether `lark-cli` is available on PATH (`Get-Command lark-cli` on Windows or `command -v lark-cli` on Unix-like systems).
+- Check authentication with `lark-cli auth status`; use `--as user` for archive writes when the user identity is available, allowing the CLI to refresh the user token automatically.
+- If the CLI is available, execute the sync serially from the local report directory so all `--file` paths are relative to the command CWD.
+- Do not conclude that Feishu sync is unavailable solely from the absence of MCP tools.
+- If the first command fails, inspect its exact error, retry only with a safe corrected invocation, and record the concrete blocker. Do not silently mark the report delivered without the Feishu manifest.
 
 ## Naming
 

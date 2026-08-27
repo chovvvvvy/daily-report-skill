@@ -1,6 +1,6 @@
 ---
 name: daily-report
-description: Continuity-first Chinese daily report workflow for developers. Use when the user wants to review yesterday's promised work, record today's engineering progress, bugs, tests, temporary additions, evidence, and tomorrow's plan, then generate consistent JSON, HTML, and Markdown daily reports.
+description: Continuity-first Chinese daily report workflow for developers, including confirmed Feishu archive synchronization and guarded headless submission of the four daily-report text fields.
 ---
 
 # Daily Report
@@ -150,7 +150,8 @@ Treat attachments as optional supporting evidence, not mandatory fields.
 - Use the same five numbered sections in Markdown and retain every confirmed item ID, status, result, and next action.
 - Put copy-ready Markdown in a fenced `text` block when showing it in chat.
 - When revising a report, update JSON first and regenerate both outputs; never patch only one derivative.
-- After all local files pass delivery checks, execute the standing Feishu archive sync in [`references/feishu-archive-sync.md`](references/feishu-archive-sync.md). This is a post-generation delivery step and does not change the interview, confirmation gate, source precedence, or local canonical files.
+- After all local files pass delivery checks, **must execute** the standing Feishu archive sync in [`references/feishu-archive-sync.md`](references/feishu-archive-sync.md). This is a mandatory post-generation delivery step and does not change the interview, confirmation gate, source precedence, or local canonical files. The sync is not optional merely because no Feishu MCP connector appears in the current tool list: first check for the locally installed `lark-cli` command and use it when available. Report delivery is incomplete until the configured Feishu report and attachment folders have been synchronized, or a concrete authentication/permission/upload failure has been recorded after retrying safe alternatives.
+- After a confirmed report has passed the local checks and the Feishu archive sync has succeeded, read [`references/feishu-report-submit.md`](references/feishu-report-submit.md) and run [`scripts/feishu_report_submit.py`](scripts/feishu_report_submit.py) with `--submit`. The script must run headlessly, use the saved Feishu storage state, process only `今日总结`, `今日对接客户名称`, `明日计划`, and `需要协调与帮助`, and leave reporter, CC recipients, forwarding, and OKR controls unchanged. It must stop on an expired deadline, an already-submitted report, an invalid login state, missing archive manifest, missing editor, or any failed pre-submit content check. Never submit based only on a changed URL; require the visible `提交成功` result and retain the execution log.
 
 ## Delivery checks
 
