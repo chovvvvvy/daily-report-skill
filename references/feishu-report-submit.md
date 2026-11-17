@@ -15,10 +15,10 @@
 
 ## 执行脚本
 
-脚本位于 [`scripts/feishu_report_submit.py`](../scripts/feishu_report_submit.py)，默认无头运行。生产提交流程使用：
+脚本位于 [`scripts/feishu_report_submit.py`](../scripts/feishu_report_submit.py)，默认无头运行。先按 [report-runtime.md](report-runtime.md) 完成一次本地预检；日报与周报共用固定环境。生产提交流程使用：
 
 ```powershell
-py C:\Users\eqy\.codex\skills\daily-report\scripts\feishu_report_submit.py `
+& 'C:\Users\eqy\.codex\report-sync\.venv\Scripts\python.exe' 'C:\Users\eqy\.codex\skills\daily-report\scripts\feishu_report_submit.py' `
   --report-json "D:\lijingSun\Doc\周报日报\YYMMDD日报\YYMMDD日报.json" `
   --archive-manifest "D:\lijingSun\Doc\周报日报\YYMMDD日报\YYMMDD日报.feishu.json" `
   --submit
@@ -42,6 +42,8 @@ C:\Users\eqy\.codex\skills\daily-report\feishu_storage_state.json
 - `今日对接客户名称（可录多个，若无填无）`
 - `明日计划`
 - `需要协调与帮助`
+
+对于 `report_layout: "project-v1"` 日报，脚本复用 `render_project_report.py` 从同一 JSON 确定性生成四字段：今日总结按项目保留承诺核对、逐项进展、验证、备注与决策性质；明日计划汇总对应项目/事项的行动，明确标注“明日安排”“后续安排（未排期）”或具体执行日期，截止日期独立显示；需要协调与帮助包含逐项协调及报告级协调。日报正文中的计划仍在项目内部，不因表单字段名改变执行日期。旧 JSON 继续走原有映射。用 `--prepare-only` 可本地检查字段，此模式不提交、不生成真实归档。
 
 汇报人、抄送人、是否允许他人转发、OKR 和其他控件不点击、不选择、不改写。客户名称和协调字段没有确认内容时分别写入事实源允许的 `无`，不得编造。
 

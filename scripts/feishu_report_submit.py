@@ -83,6 +83,13 @@ def join_people(value: Any) -> str:
 
 
 def build_fields(report: dict[str, Any]) -> dict[str, str]:
+    if report.get("report_layout") == "project-v1":
+        from render_project_report import build_feishu_fields
+
+        try:
+            return build_feishu_fields(report)
+        except ValueError as exc:
+            raise SubmissionError(str(exc)) from exc
     summary_lines: list[str] = []
     for item in report.get("items") or []:
         if not isinstance(item, dict):
@@ -230,10 +237,6 @@ def open_report_form(page: Any, timeout_ms: int, recorder: ExecutionRecorder) ->
     page.goto(REPORT_URL, wait_until="domcontentloaded", timeout=timeout_ms)
     if "accounts.feishu.cn" in page.url:
         raise AuthenticationRequired("飞书登录态已失效")
-    try:
-        page.wait_for_load_state("networkidle", timeout=10000)
-    except Exception:
-        pass
     recorder.record("打开汇报看板")
 
     write_button = page.locator(
@@ -370,6 +373,15 @@ def main() -> int:
             f"无头提交缺少登录态文件: {storage_state}"
         )
 
+    # Fail before creating/overwriting the execution log when dependencies are missing.
+    expected_python = Path(r"C:\Users\eqy\.codex\report-sync\.venv\Scripts\python.exe")
+    if Path(sys.executable).resolve() != expected_python.resolve():
+        raise SubmissionError(f"请使用日报/周报共用解释器: {expected_python}；当前: {sys.executable}")
+    try:
+        from playwright.sync_api import sync_playwright
+    except ImportError as exc:
+        raise SubmissionError(f"当前解释器缺少 Python playwright: {sys.executable}；请运行 check_report_runtime.py") from exc
+
     execution_log = (
         args.execution_log.resolve()
         if args.execution_log
@@ -393,12 +405,6 @@ def main() -> int:
         "生成提交字段",
         detail="；".join(f"{label}:{len(normalize_text(fields[label]))}" for label in FIELD_ORDER),
     )
-
-    try:
-        from playwright.sync_api import sync_playwright
-    except ImportError as exc:
-        recorder.finish("failed", "未安装 playwright")
-        raise SubmissionError("未安装 playwright") from exc
 
     browser = None
     page = None
@@ -458,6 +464,7 @@ def main() -> int:
 
 
 if __name__ == "__main__":
+    sys.stdout.reconfigure(encoding="utf-8")
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
     try:
         raise SystemExit(main())

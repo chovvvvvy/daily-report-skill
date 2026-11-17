@@ -1,4 +1,4 @@
 interface:
   display_name: "开发日报总结"
-  short_description: "先核对昨日承诺，再生成连续一致的开发日报"
-  default_prompt: "使用 $daily-report 先核对昨天承诺今天完成的事项，再补充今日新增工作并生成一致的日报。"
+  short_description: "按项目一次核对昨日承诺与今日进展，生成连续一致的开发日报"
+  default_prompt: "使用 $daily-report 按项目一次列全昨日承诺、今日进展及其他工作，核对后生成三部分日报。"
